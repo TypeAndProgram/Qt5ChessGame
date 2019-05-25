@@ -1,7 +1,40 @@
 // TODO: Add comments to this file
 
 #include "validatepiecemove.h"
-#include <QDebug>
+
+// TODO: Implement "en Passant" capturing for pawns
+bool ValidatePieceMove::verifyPawnCapture(ChessPiece *pawn, ChessPiece* collider) {
+
+    int previousX = static_cast<int>(pawn->getPreviousPos().x());
+    int previousY = static_cast<int>(pawn->getPreviousPos().y());
+    QPointF destinationPoint = collider->pos();
+
+    QString pawnColor = pawn->getPieceName() == "Pawn" ? "white" : "black";
+    QString colliderColor = collider->getPieceName().at(0) == "B" && 
+        collider->getPieceName().at(1) == "_" ? "black" : "white";
+
+    if (pawnColor == "white")
+        if (colliderColor == "black") {
+            if (collider->getPieceName() == "B_King")
+                return false;
+           // Verify white pawn capturing
+            if (destinationPoint.x() == previousX + 80 || destinationPoint.x() == previousX - 80)
+                if (destinationPoint.y() == previousY + 80)
+                    return true;
+        }
+
+    if (pawnColor == "black")
+        if (colliderColor == "white") {
+            if (collider->getPieceName() == "King")
+                return false;
+            
+
+            if (destinationPoint.x() == previousX + 80 || destinationPoint.x() == previousX - 80)
+                if (destinationPoint.y() == previousY - 80)
+                    return true;
+        }
+    return false;
+}
 
 bool ValidatePieceMove::verifyPawn(ChessPiece *pawn, QGraphicsItem* collider) {
     int previousX = static_cast<int>(pawn->getPreviousPos().x());
@@ -17,7 +50,6 @@ bool ValidatePieceMove::verifyPawn(ChessPiece *pawn, QGraphicsItem* collider) {
 
     // Execute this if pawn has already left start.
     if (destinationPoint == QPointF(previousX, previousY + 80) && pawn->getPieceName() == "Pawn") {
-        qDebug() << "Verified pawn: " << destinationPoint;
         return true;
     }
 

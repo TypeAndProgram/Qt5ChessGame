@@ -4,7 +4,6 @@
 #include <QList>
 #include <memory>
 #include <QProcess>
-#include <iostream>
 
 ChessPiece::ChessPiece(QGraphicsItem *parent) : QGraphicsPixmapItem(parent), dragOver(false)
 {
@@ -44,25 +43,15 @@ void ChessPiece::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
                 // TODO: Check if the QImage of targeted piece is equal to a certain piece, then verify pawn, then 
                 // move the piece
                 
-                // TODO: Abstract verification code for captures in (ValidatePieceMove?) class
-                
-                if (target->pixmap().toImage() == QPixmap("../ImagesOfPieces/Pawn.png").scaled(80, 80).toImage()) {
-                    qDebug() << "Target is a white pawn";
-                    if (this->m_Name == "B_Pawn") {
-                        // Verify pawn move
-                        if (ValidatePieceMove::verifyPawn(this, collider)) {
-                            this->setPos(target->pos());
-                            this->hasLeftStart = true;
-                            this->getPieceScene()->removeItem(target);
-                            this->setPreviousPos(this->pos());
-                            return;
-                        } else {
-                            this->setPos(this->getPreviousPos());
-                            return;
-                        }
-                    }
-                    if (this->m_Name == "Pawn") {
-                        // Can't capture pawn
+                if (this->m_Name == "Pawn" || this->m_Name == "B_Pawn") {
+                    if (ValidatePieceMove::verifyPawnCapture(this, static_cast<ChessPiece*>(target))) {
+                        // Move pawn, remove target, set variables
+                        this->setPos(target->pos());
+                        this->hasLeftStart = true;
+                        this->getPieceScene()->removeItem(target);
+                        this->setPreviousPos(this->pos());
+                        return;
+                    } else {
                         this->setPos(this->getPreviousPos());
                         return;
                     }

@@ -2,7 +2,6 @@
 #include "chesspiece.h"
 
 #include "drawchessboard.h"
-
 #include "pch.h"
 
 int main(int argc, char *argv[])
@@ -35,3 +34,4 @@ int main(int argc, char *argv[])
 
     return 0;
 }
+
