@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
-project(ChessGame)
+set(CMAKE_CXX_STANDARD 17)
+project(chess_game)
 
 # Instruct CMake to run moc automatically when needed.
 set(CMAKE_AUTOMOC ON)
@@ -12,12 +13,12 @@ find_package(Qt5 REQUIRED
     Gui
     Widgets
 )
-set(SOURCES src/chesspiece.cpp src/drawchessboard.cpp src/main.cpp src/mainwindow.cpp
+set(SOURCES src/chesspiece.cpp src/chessboard.cpp src/main.cpp src/mainwindow.cpp
 src/validatepiecemove.cpp)
 set(UI src/mainwindow.ui)
 
 set(PCH_HEADER src/pch.h)
 
-add_executable(ChessGame ${SOURCES} ${HEADERS} ${UI})
+add_executable(chess_game ${SOURCES} ${HEADERS} ${UI})
 
-target_link_libraries(ChessGame Qt5::Widgets)
+target_link_libraries(chess_game Qt5::Widgets)
