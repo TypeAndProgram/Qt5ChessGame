@@ -10,7 +10,7 @@ bool ValidatePieceMove::verifyPawnCapture(ChessPiece *pawn, ChessPiece* collider
     QPointF destinationPoint = collider->pos();
 
     QString pawnColor = pawn->getPieceName() == "Pawn" ? "white" : "black";
-    QString colliderColor = collider->getPieceName().at(0) == "B" && 
+    QString colliderColor = collider->getPieceName().at(0) == "B" &&
         collider->getPieceName().at(1) == "_" ? "black" : "white";
 
     if (pawnColor == "white")
@@ -27,7 +27,7 @@ bool ValidatePieceMove::verifyPawnCapture(ChessPiece *pawn, ChessPiece* collider
         if (colliderColor == "white") {
             if (collider->getPieceName() == "King")
                 return false;
-            
+
 
             if (destinationPoint.x() == previousX + 80 || destinationPoint.x() == previousX - 80)
                 if (destinationPoint.y() == previousY - 80)
