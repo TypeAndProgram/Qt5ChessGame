@@ -1,6 +1,6 @@
 // TODO: Add comments to this file
 
-#include "validatepiecemove.h"
+#include "../include/ChessGame/validatepiecemove.h"
 
 // TODO: Implement "en Passant" capturing for pawns
 bool ValidatePieceMove::verifyPawnCapture(ChessPiece *pawn, ChessPiece* collider) {

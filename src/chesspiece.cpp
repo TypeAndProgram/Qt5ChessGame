@@ -1,5 +1,5 @@
-#include "chesspiece.h"
-#include "validatepiecemove.h"
+#include "../include/ChessGame/chesspiece.h"
+#include "../include/ChessGame/validatepiecemove.h"
 
 #include <QList>
 #include <memory>

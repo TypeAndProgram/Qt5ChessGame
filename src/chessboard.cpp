@@ -1,5 +1,5 @@
-#include "chessboard.h"
-#include "chesspiece.h"
+#include "../include/ChessGame/chessboard.h"
+#include "../include/ChessGame/chesspiece.h"
 
 ChessBoard::ChessBoard(std::shared_ptr<QGraphicsScene>& scene)
     : scene(std::make_shared<QGraphicsScene>(scene)) {

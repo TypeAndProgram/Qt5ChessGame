@@ -1,19 +1,19 @@
-#include "mainwindow.h"
-#include "chesspiece.h"
+#include "../include/ChessGame/mainwindow.h"
+#include "../include/ChessGame/chesspiece.h"
 
-#include "chessboard.h"
-#include "pch.h"
+#include "../include/ChessGame/chessboard.h"
+#include "../include/ChessGame/pch.h"
 
 auto main(int argc, char *argv[]) -> int
 {
     QApplication a(argc, argv);
 
     // Create the scene
-    QGraphicsScene scene;
-    ChessBoard board(std::unique_ptr<QGraphicsScene>(new QGraphicsScene));
+    std::shared_ptr<QGraphicsScene> scene = std::make_shared<QGraphicsScene>();
+    ChessBoard board(scene);
     board.resize(700, 700);
     board.setRenderHint(QPainter::HighQualityAntialiasing);
-    board.setScene(&scene);
+    board.setScene(scene.get());
     board.draw();
     board.show();
 

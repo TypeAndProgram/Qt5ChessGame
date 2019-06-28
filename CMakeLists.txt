@@ -1,11 +1,15 @@
 cmake_minimum_required(VERSION 3.10)
 project(ChessGame)
 
+# Add path for modules
+set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake" ${CMAKE_MODULE_PATH})
+
 # Instruct CMake to run moc automatically when needed.
 set(CMAKE_AUTOMOC ON)
 # Instruct CMake to run uic automatically when needed.
 set(CMAKE_AUTOUIC ON)
 
+# Set directory for executables
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY bin)
 
 file(TO_CMAKE_PATH "${PROJECT_BINARY_DIR}/CMakeLists.txt" LOC_PATH)
@@ -15,6 +19,7 @@ if (EXISTS "$LOC_PATH")
 	and CMakeFiles.")
 endif()
 
+find_package(PrecompiledHeader REQUIRED)
 find_package(Qt5 REQUIRED
     Core
     PrintSupport
@@ -25,8 +30,6 @@ set(SOURCES src/chesspiece.cpp src/chessboard.cpp src/main.cpp src/mainwindow.cp
 src/validatepiecemove.cpp)
 set(UI src/mainwindow.ui)
 
-set(PCH_HEADER include/ChessGame/pch.h)
-
 add_executable(ChessGame ${SOURCES} ${HEADERS} ${UI})
-
+add_precompiled_header(ChessGame include/ChessGame/pch.h FORCEINCLUDE)
 target_link_libraries(ChessGame Qt5::Widgets)
