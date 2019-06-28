@@ -1,11 +1,19 @@
 cmake_minimum_required(VERSION 3.10)
-set(CMAKE_CXX_STANDARD 17)
-project(chess_game)
+project(ChessGame)
 
 # Instruct CMake to run moc automatically when needed.
 set(CMAKE_AUTOMOC ON)
 # Instruct CMake to run uic automatically when needed.
 set(CMAKE_AUTOUIC ON)
+
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY bin)
+
+file(TO_CMAKE_PATH "${PROJECT_BINARY_DIR}/CMakeLists.txt" LOC_PATH)
+if (EXISTS "$LOC_PATH")
+	message(FATAL_ERROR "You cannot build in a source directory (or any directory that contains
+	a CMakeLists.txt file). Please make a build subdirectory. Feel free to remove CMakeCache.txt
+	and CMakeFiles.")
+endif()
 
 find_package(Qt5 REQUIRED
     Core
@@ -17,8 +25,8 @@ set(SOURCES src/chesspiece.cpp src/chessboard.cpp src/main.cpp src/mainwindow.cp
 src/validatepiecemove.cpp)
 set(UI src/mainwindow.ui)
 
-set(PCH_HEADER src/pch.h)
+set(PCH_HEADER include/ChessGame/pch.h)
 
-add_executable(chess_game ${SOURCES} ${HEADERS} ${UI})
+add_executable(ChessGame ${SOURCES} ${HEADERS} ${UI})
 
-target_link_libraries(chess_game Qt5::Widgets)
+target_link_libraries(ChessGame Qt5::Widgets)
