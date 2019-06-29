@@ -10,9 +10,9 @@ ChessBoard::ChessBoard(std::shared_ptr<QGraphicsScene> scene)
 }
 
 auto ChessBoard::initRect(QRect rect,
-                          QBrush brush,
-                          int index,
-                          bool needsNewLine,
+                          QBrush const& brush,
+                          int const& index,
+                          bool const& needsNewLine,
                           int &previousX,
                           int &previousY) -> std::unique_ptr<QGraphicsRectItem> {
 
@@ -66,7 +66,7 @@ auto ChessBoard::drawRects() -> void {
     }
 }
 
-auto ChessBoard::setPieceProperties(std::unique_ptr<ChessPiece>& piece, QString name, QPointF pos) -> void {
+auto ChessBoard::setPieceProperties(std::unique_ptr<ChessPiece>& piece, QString const& name, QPointF const& pos) -> void {
     QString pathString = "../../assets/pieces/";
     pathString += (name.trimmed() + ".png");
     piece->setPixmap(QPixmap(pathString).scaled(80, 80));

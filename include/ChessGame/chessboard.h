@@ -18,12 +18,12 @@ public:
     auto draw() -> void;
 private:
     auto initRect(QRect rect,
-                  QBrush brush,
-                  int index,
-                  bool needsNewLine,
+                  QBrush const& brush,
+                  int const& index,
+                  bool const& needsNewLine,
                   int &previousX,
                   int &previousY) -> std::unique_ptr<QGraphicsRectItem>;
-    static auto setPieceProperties(std::unique_ptr<ChessPiece>& piece, QString name, QPointF pos) -> void;
+    static auto setPieceProperties(std::unique_ptr<ChessPiece>& piece, QString const& name, QPointF const& pos) -> void;
     auto checkIfNeedsNewLine(int const& index) -> bool;
 
     auto drawRects() -> void;
