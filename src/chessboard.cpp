@@ -9,6 +9,14 @@ ChessBoard::ChessBoard(std::shared_ptr<QGraphicsScene> scene)
     }
 }
 
+auto ChessBoard::setPieceProperties(std::unique_ptr<ChessPiece>& piece, QString const& name, QPointF const& pos) -> void {
+    QString pathString = "../../assets/pieces/";
+    pathString += (name.trimmed() + ".png");
+    piece->setPixmap(QPixmap(pathString).scaled(80, 80));
+    piece->setPos(pos);
+    piece->name = name;
+}
+
 auto ChessBoard::initRect(QRect rect,
                           QBrush const& brush,
                           int const& index,
@@ -53,8 +61,9 @@ auto ChessBoard::drawRects() -> void {
             m_squares[row][column] = initRect(squares[row][column],
                                               previousBrush == QBrush(Qt::white) ? QBrush(Qt::darkGray) : QBrush(Qt::white),
                                               // TODO: Make this look better
+
                                               // If this is the first square,
-                                              // indicate it as such.
+                                              // this line below indicates it as such.
                                               column == 0 ? row : row + 1,
                                               needsNewLine,
                                               previousX,
@@ -66,38 +75,20 @@ auto ChessBoard::drawRects() -> void {
     }
 }
 
-auto ChessBoard::setPieceProperties(std::unique_ptr<ChessPiece>& piece, QString const& name, QPointF const& pos) -> void {
-    QString pathString = "../../assets/pieces/";
-    pathString += (name.trimmed() + ".png");
-    piece->setPixmap(QPixmap(pathString).scaled(80, 80));
-    piece->setPos(pos);
-    piece->name = name;
-}
 
 auto ChessBoard::drawPawns() -> void {
-    auto previousWhitePoint = QPoint(-200, -120);
-    auto previousBlackPoint = QPoint(-200, 280);
-
     for (auto index = 0; index < 8; index++) {
         // TODO: Make this changeable depending on user settings
         // for board orientation.
-        setPieceProperties(m_whitePieces[index], "Pawn", previousWhitePoint);
-        setPieceProperties(m_blackPieces[index], "B_Pawn", previousBlackPoint);
-        // TODO: Verify no memory leaks.
+        setPieceProperties(m_whitePieces[index], "Pawn", m_squares[1][index]->pos());
+        setPieceProperties(m_blackPieces[index], "B_Pawn", m_squares[6][index]->pos());
+
         scene->addItem(m_whitePieces[index].get());
         scene->addItem(m_blackPieces[index].get());
-
-        previousWhitePoint = QPoint(previousWhitePoint.x() + 80, previousWhitePoint.y());
-        previousBlackPoint = QPoint(previousBlackPoint.x() + 80, previousBlackPoint.y());
     }
 }
 
 auto ChessBoard::drawWhitePieces() -> void {
-    // Assert that the squares are initialized.
-    for (auto& arr : m_squares)
-        for (auto& square : arr)
-            Q_ASSERT(square != nullptr);
-
     setPieceProperties(m_whitePieces[8], "Rook", m_squares[0][0]->pos());
     setPieceProperties(m_whitePieces[15], "Rook", m_squares[0][7]->pos());
 
@@ -115,13 +106,7 @@ auto ChessBoard::drawWhitePieces() -> void {
 }
 
 auto ChessBoard::drawBlackPieces() -> void {
-    // Assert that the squares are initialized.
-    for (auto& arr : m_squares)
-        for (auto& square : arr)
-            Q_ASSERT(square != nullptr);
-
     setPieceProperties(m_blackPieces[8], "B_Rook", m_squares[7][0]->pos());
-    qDebug() << m_squares[1][0]->pos();
     setPieceProperties(m_blackPieces[15], "B_Rook", m_squares[7][7]->pos());
 
     setPieceProperties(m_blackPieces[9], "B_Knight", m_squares[7][1]->pos());
@@ -138,15 +123,20 @@ auto ChessBoard::drawBlackPieces() -> void {
 }
 
 auto ChessBoard::drawPieces() -> void {
+    // Assert that the squares are initialized.
+    for (auto& arr : m_squares)
+        for (auto& square : arr)
+            Q_ASSERT(square != nullptr);
+
     drawPawns();
-    // TODO: Have numbers associated with the pieces (not the pawns)
+
+    // TODO: Have numbers associated with the pieces.
     drawWhitePieces();
     drawBlackPieces();
 }
 
 auto ChessBoard::draw() -> void
 {
-    // Draw the rects for the chessboard
     drawRects();
     drawPieces();
 }
