@@ -1,6 +1,9 @@
 #include "../include/ChessGame/chessboard.h"
 #include "../include/ChessGame/chesspiece.h"
 
+// TODO: Make the chessboard orientation user configurable,
+// i.e. white/black pieces on top/bottom.
+
 ChessBoard::ChessBoard(std::shared_ptr<QGraphicsScene> scene)
     : scene(scene) {
     for (auto i = 0; i < 16; i++) {
@@ -78,8 +81,6 @@ auto ChessBoard::drawRects() -> void {
 
 auto ChessBoard::drawPawns() -> void {
     for (auto index = 0; index < 8; index++) {
-        // TODO: Make this changeable depending on user settings
-        // for board orientation.
         setPieceProperties(m_whitePieces[index], "Pawn", m_squares[1][index]->pos());
         setPieceProperties(m_blackPieces[index], "B_Pawn", m_squares[6][index]->pos());
 
