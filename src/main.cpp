@@ -1,4 +1,4 @@
-#include "../include/ChessGame/mainwindow.h"
+#include "mainwindow.h"
 #include "../include/ChessGame/chesspiece.h"
 
 #include "../include/ChessGame/chessboard.h"
