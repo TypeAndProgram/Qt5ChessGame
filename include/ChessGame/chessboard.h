@@ -1,7 +1,7 @@
 #ifndef CHESSBOARD_H
 #define CHESSBOARD_H
 
-#include "mainwindow.h"
+#include "../../src/mainwindow.h"
 #include "chesspiece.h"
 
 #include <QGraphicsView>
@@ -14,7 +14,7 @@
 class ChessBoard : public QGraphicsView
 {
 public:
-    ChessBoard(std::shared_ptr<QGraphicsScene>& scene);
+    ChessBoard(std::shared_ptr<QGraphicsScene> scene);
     auto draw() -> void;
 private:
     auto initRect(QRect rect,
@@ -23,15 +23,18 @@ private:
                   bool needsNewLine,
                   int &previousX,
                   int &previousY) -> std::unique_ptr<QGraphicsRectItem>;
-    auto setPieceProperties(std::unique_ptr<ChessPiece>& piece, QString name, QPoint pos) -> void;
+    static auto setPieceProperties(std::unique_ptr<ChessPiece>& piece, QString name, QPointF pos) -> void;
     auto checkIfNeedsNewLine(int const& index) -> bool;
+
     auto drawRects() -> void;
     auto drawPieces() -> void;
+    auto drawBlackPieces() -> void;
+    auto drawWhitePieces() -> void;
     auto drawPawns() -> void;
 
 private:
     std::shared_ptr<QGraphicsScene> const scene;
-    std::array<std::array<std::unique_ptr<QGraphicsRectItem>, 8>, 8> const m_squares;
+    std::array<std::array<std::unique_ptr<QGraphicsRectItem>, 8>, 8> m_squares;
 
     std::array<std::unique_ptr<ChessPiece>, 16> m_whitePieces;
     std::array<std::unique_ptr<ChessPiece>, 16> m_blackPieces;
