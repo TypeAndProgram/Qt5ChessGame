@@ -51,13 +51,14 @@ auto ChessBoard::drawRects() -> void {
     for (auto row = 0; row < 8; row++) {
         for (auto column = 0; column < 8; column++) {
             m_squares[row][column] = initRect(squares[row][column],
-                                                         previousBrush == QBrush(Qt::white) ? QBrush(Qt::darkGray) : QBrush(Qt::white),
-                                                         // TODO: FIX THIS (BELOW) TO BE
-                                                         // DIFFERENT
-                                                         column == 0 ? row : row + 1,
-                                                         needsNewLine,
-                                                         previousX,
-                                                         previousY);
+                                              previousBrush == QBrush(Qt::white) ? QBrush(Qt::darkGray) : QBrush(Qt::white),
+                                              // TODO: Make this look better
+                                              // If this is the first square,
+                                              // indicate it as such.
+                                              column == 0 ? row : row + 1,
+                                              needsNewLine,
+                                              previousX,
+                                              previousY);
             previousBrush = m_squares[row][column]->brush();
             needsNewLine = false;
         }
