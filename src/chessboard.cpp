@@ -5,7 +5,7 @@
 // i.e. white/black pieces on top/bottom.
 
 ChessBoard::ChessBoard(std::shared_ptr<QGraphicsScene> scene)
-    : scene(scene) {
+    : scene(scene), m_squares(drawRects()) {
     for (auto i = 0; i < 16; i++) {
         m_whitePieces[i] = std::unique_ptr<ChessPiece>(new ChessPiece(nullptr, scene));
         m_blackPieces[i] = std::unique_ptr<ChessPiece>(new ChessPiece(nullptr, scene));
@@ -22,13 +22,13 @@ auto ChessBoard::setPieceProperties(std::unique_ptr<ChessPiece>& piece,
     piece->name = name;
 }
 
-auto ChessBoard::initRect(QRect rect,
-                          QBrush const& brush,
+auto ChessBoard::drawRect(QBrush const& brush,
                           int const& index,
                           bool const& needsNewLine,
                           int &previousX,
                           int &previousY) -> std::unique_ptr<QGraphicsRectItem> {
 
+    QRect rect;
     rect.setWidth(80);
     rect.setHeight(80);
     auto rectItem = scene->addRect(rect);
@@ -54,30 +54,31 @@ auto ChessBoard::initRect(QRect rect,
 }
 
 
-auto ChessBoard::drawRects() -> void {
+auto ChessBoard::drawRects() -> std::array<std::array<std::unique_ptr<QGraphicsRectItem>, 8>, 8> {
     auto previousX = 0;
     auto previousY = 0;
     QBrush previousBrush;
-    std::array<std::array<QRect, 8>, 8> squares;
+    std::array<std::array<std::unique_ptr<QGraphicsRectItem>, 8>, 8> squares;
 
     auto needsNewLine = true;
     for (auto row = 0; row < 8; row++) {
         for (auto column = 0; column < 8; column++) {
-            m_squares[row][column] = initRect(squares[row][column],
-                                              previousBrush == QBrush(Qt::white) ? QBrush(Qt::darkGray) : QBrush(Qt::white),
-                                              // TODO: Make this look better
+            squares[row][column] = drawRect(previousBrush == QBrush(Qt::white) ? QBrush(Qt::darkGray) : QBrush(Qt::white),
+                                            // TODO: Make this look better
 
-                                              // If this is the first square,
-                                              // this line below indicates it as such.
-                                              column == 0 ? row : row + 1,
-                                              needsNewLine,
-                                              previousX,
-                                              previousY);
-            previousBrush = m_squares[row][column]->brush();
+                                            // If this is the first square,
+                                            // this line below indicates it as such.
+                                            column == 0 ? row : row + 1,
+                                            needsNewLine,
+                                            previousX,
+                                            previousY);
+            previousBrush = squares[row][column]->brush();
             needsNewLine = false;
         }
         needsNewLine = true;
     }
+
+    return squares;
 }
 
 
@@ -125,21 +126,11 @@ auto ChessBoard::drawBlackPieces() -> void {
     }
 }
 
-auto ChessBoard::drawPieces() -> void {
-    // Assert that the squares are initialized.
-    for (auto& arr : m_squares)
-        for (auto& square : arr)
-            Q_ASSERT(square != nullptr);
-
+auto ChessBoard::draw() -> void
+{
     drawPawns();
 
     // TODO: Have numbers associated with the pieces.
     drawWhitePieces();
     drawBlackPieces();
-}
-
-auto ChessBoard::draw() -> void
-{
-    drawRects();
-    drawPieces();
 }

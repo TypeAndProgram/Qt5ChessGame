@@ -17,8 +17,7 @@ public:
     ChessBoard(std::shared_ptr<QGraphicsScene> scene);
     auto draw() -> void;
 private:
-    auto initRect(QRect rect,
-                  QBrush const& brush,
+    auto drawRect(QBrush const& brush,
                   int const& index,
                   bool const& needsNewLine,
                   int &previousX,
@@ -26,15 +25,14 @@ private:
     static auto setPieceProperties(std::unique_ptr<ChessPiece>& piece, QString const& name, QPointF const& pos) -> void;
     auto checkIfNeedsNewLine(int const& index) -> bool;
 
-    auto drawRects() -> void;
-    auto drawPieces() -> void;
+    auto drawRects() -> std::array<std::array<std::unique_ptr<QGraphicsRectItem>, 8>, 8>;
     auto drawBlackPieces() -> void;
     auto drawWhitePieces() -> void;
     auto drawPawns() -> void;
 
 private:
     std::shared_ptr<QGraphicsScene> const scene;
-    std::array<std::array<std::unique_ptr<QGraphicsRectItem>, 8>, 8> m_squares;
+    std::array<std::array<std::unique_ptr<QGraphicsRectItem>, 8>, 8> const m_squares;
 
     std::array<std::unique_ptr<ChessPiece>, 16> m_whitePieces;
     std::array<std::unique_ptr<ChessPiece>, 16> m_blackPieces;
