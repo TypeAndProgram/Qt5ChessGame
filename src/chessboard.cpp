@@ -12,6 +12,7 @@ ChessBoard::ChessBoard(std::shared_ptr<QGraphicsScene> scene)
     }
 }
 
+
 auto ChessBoard::setPieceProperties(std::unique_ptr<ChessPiece>& piece,
                                     QString const& name,
                                     QPointF const& pos) -> void {
@@ -21,6 +22,7 @@ auto ChessBoard::setPieceProperties(std::unique_ptr<ChessPiece>& piece,
     piece->setPos(pos);
     piece->name = name;
 }
+
 
 auto ChessBoard::drawRect(QBrush const& brush,
                           int const& index,
@@ -92,6 +94,7 @@ auto ChessBoard::drawPawns() -> void {
     }
 }
 
+
 auto ChessBoard::drawWhitePieces() -> void {
     setPieceProperties(m_whitePieces[8], "Rook", m_squares[0][0]->pos());
     setPieceProperties(m_whitePieces[15], "Rook", m_squares[0][7]->pos());
@@ -109,6 +112,7 @@ auto ChessBoard::drawWhitePieces() -> void {
     }
 }
 
+
 auto ChessBoard::drawBlackPieces() -> void {
     setPieceProperties(m_blackPieces[8], "B_Rook", m_squares[7][0]->pos());
     setPieceProperties(m_blackPieces[15], "B_Rook", m_squares[7][7]->pos());
@@ -125,6 +129,7 @@ auto ChessBoard::drawBlackPieces() -> void {
         scene->addItem(m_blackPieces[i].get());
     }
 }
+
 
 auto ChessBoard::draw() -> void
 {
