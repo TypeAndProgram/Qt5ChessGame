@@ -12,7 +12,9 @@ ChessBoard::ChessBoard(std::shared_ptr<QGraphicsScene> scene)
     }
 }
 
-auto ChessBoard::setPieceProperties(std::unique_ptr<ChessPiece>& piece, QString const& name, QPointF const& pos) -> void {
+auto ChessBoard::setPieceProperties(std::unique_ptr<ChessPiece>& piece, 
+                                    QString const& name,
+                                    QPointF const& pos) -> void {
     QString pathString = "../../assets/pieces/";
     pathString += (name.trimmed() + ".png");
     piece->setPixmap(QPixmap(pathString).scaled(80, 80));
