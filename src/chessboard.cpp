@@ -7,8 +7,8 @@
 ChessBoard::ChessBoard(std::shared_ptr<QGraphicsScene> scene)
     : scene(scene), m_squares(drawRects()) {
     for (auto i = 0; i < 16; i++) {
-        m_whitePieces[i] = std::unique_ptr<ChessPiece>(new ChessPiece(nullptr, scene));
-        m_blackPieces[i] = std::unique_ptr<ChessPiece>(new ChessPiece(nullptr, scene));
+        m_whitePieces[i] = std::make_unique<ChessPiece>(nullptr, scene);
+        m_blackPieces[i] = std::make_unique<ChessPiece>(nullptr, scene);
     }
 }
 
@@ -39,20 +39,20 @@ auto ChessBoard::drawRect(QBrush const& brush,
         previousX = -200;
         previousY = -200;
         rectItem->setBrush(brush);
-        return std::unique_ptr<QGraphicsRectItem>(rectItem);
+        return std::make_unique<QGraphicsRectItem>(rectItem);
     } else if (needsNewLine) {
         rectItem->setPos(-200, previousY + 80);
         rectItem->setBrush(index % 2 == 0 ?
                            QBrush(Qt::white) : QBrush(Qt::darkGray));
         previousX = -200;
         previousY += 80;
-        return std::unique_ptr<QGraphicsRectItem>(rectItem);
+        return std::make_unique<QGraphicsRectItem>(rectItem);
     }
 
     rectItem->setPos(previousX + 80, previousY);
     rectItem->setBrush(brush);
     previousX += 80;
-    return std::unique_ptr<QGraphicsRectItem>(rectItem);
+    return std::make_unique<QGraphicsRectItem>(rectItem);
 }
 
 
