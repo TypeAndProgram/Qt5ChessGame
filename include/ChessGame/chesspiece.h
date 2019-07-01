@@ -3,6 +3,21 @@
 
 #include "pch.h"
 
+enum ChessPieceKind {
+    Pawn,
+    Rook,
+    Bishop,
+    Knight,
+    King,
+    Queen,
+    BPawn,
+    BRook,
+    BBishop,
+    BKnight,
+    BKing,
+    BQueen
+};
+
 class ChessPiece : public QGraphicsPixmapItem
 {
 public:
@@ -11,16 +26,19 @@ protected:
     auto mouseMoveEvent(QGraphicsSceneMouseEvent *event) -> void override;
     auto mousePressEvent(QGraphicsSceneMouseEvent *event) -> void override;
     auto mouseReleaseEvent(QGraphicsSceneMouseEvent *event) -> void override;
+
+    auto handlePieceMove(ChessPieceKind const& pieceName, std::unique_ptr<QGraphicsItem> collider) -> void;
+    auto handlePawnMove(std::unique_ptr<QGraphicsItem> collider) -> void;
+    auto handleRookMove() -> void;
+    auto handleBishopMove() -> void;
+    auto handleKnightMove() -> void;
+    auto handleKingMove() -> void;
+    auto handleQueenMove() -> void;
     bool dragOver;
 public:
     std::shared_ptr<QGraphicsScene> const scene;
     QPointF previousPos;
-    QString name;
-   //  inline void setPieceScene(QGraphicsScene *graphicsScene) { m_PieceScene = graphicsScene; }
-    //inline QGraphicsScene* getPieceScene() { return m_pieceScene; }
-   //  inline QString getPieceName() { return m_Name; }
-   //  inline QPointF getPreviousPos() { return m_PreviousPos; }
-   //  inline void setPreviousPos(QPointF pos) { m_PreviousPos = pos; }
+    ChessPieceKind kind;
     bool hasLeftStart;
 };
 

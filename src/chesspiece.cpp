@@ -11,6 +11,7 @@ ChessPiece::ChessPiece(QGraphicsItem *parent, std::shared_ptr<QGraphicsScene> sc
     setAcceptDrops(true);
 }
 
+
 auto ChessPiece::mousePressEvent(QGraphicsSceneMouseEvent *event) -> void
 {
     // Set the previous position of the chesspiece equal to its current position
@@ -19,11 +20,65 @@ auto ChessPiece::mousePressEvent(QGraphicsSceneMouseEvent *event) -> void
     Q_UNUSED(event)
 }
 
+
 auto ChessPiece::mouseMoveEvent(QGraphicsSceneMouseEvent *event) -> void
 {
     // Move the pawn with the cursor as it drags the pawn
     QPointF lastPoint = mapToScene(event->lastPos());
     setPos(lastPoint.x() + -30, lastPoint.y() + -30);
+}
+
+
+auto ChessPiece::handlePieceMove(ChessPieceKind const& pieceKind,
+                                 std::unique_ptr<QGraphicsItem> collider) -> void {
+    switch (pieceKind) {
+        case Pawn: case BPawn:
+            handlePawnMove(std::move(collider));
+            break;
+        case Rook: case BRook:
+            handleRookMove();
+            break;
+        case Bishop: case BBishop:
+            handleBishopMove();
+            break;
+        case Knight: case BKnight:
+            handleKnightMove();
+            break;
+        case King: case BKing:
+            handleKingMove();
+            break;
+        case Queen: case BQueen:
+            handleQueenMove();
+            break;
+    }
+}
+
+auto ChessPiece::handlePawnMove(std::unique_ptr<QGraphicsItem> collider) -> void {
+    if (!ValidatePieceMove::validatePawn(std::make_unique<ChessPiece>(this),
+                                         std::move(collider))) {
+        // set pawn to previous pos and return
+    }
+
+}
+
+
+auto ChessPiece::handleRookMove() -> void {
+}
+
+
+auto ChessPiece::handleBishopMove() -> void {
+}
+
+
+auto ChessPiece::handleKnightMove() -> void {
+}
+
+
+auto ChessPiece::handleKingMove() -> void {
+}
+
+
+auto ChessPiece::handleQueenMove() -> void {
 }
 
 // TODO: Handle capturing of pieces
