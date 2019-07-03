@@ -57,10 +57,10 @@ auto ChessPiece::handlePieceMove(ChessPieceKind const& pieceKind,
 }
 
 auto ChessPiece::handlePawnMove(std::unique_ptr<QGraphicsItem> collider) -> void {
-    if (!ValidatePieceMove::validatePawn(std::make_unique<ChessPiece>(this),
-                                         std::move(collider))) {
-        // set pawn to previous pos and return
-    }
+   // if (!ValidatePieceMove::validatePawn(std::make_unique<ChessPiece>(this),
+   //                                      std::move(collider))) {
+   //     // set pawn to previous pos and return
+   // }
 }
 
 

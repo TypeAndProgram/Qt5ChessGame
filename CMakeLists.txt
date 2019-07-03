@@ -31,7 +31,6 @@ src/validatepiecemove.cpp)
 set(UI src/mainwindow.ui)
 
 add_executable(ChessGame ${SOURCES} ${HEADERS} ${UI})
-set_property(TARGET ChessGame PROPERTY CXX_STANDARD 17)
 
 add_precompiled_header(ChessGame include/ChessGame/pch.h FORCEINCLUDE)
 target_link_libraries(ChessGame Qt5::Widgets)
