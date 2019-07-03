@@ -4,19 +4,18 @@
 #include "chesspiece.h"
 #include "pch.h"
 
-class ValidatePieceMove
+namespace ValidatePieceMove
 {
-public:
-    static bool verifyPawnCapture(ChessPiece *pawn, ChessPiece* collider);
+    static auto validatePawnCapture(std::unique_ptr<ChessPiece> pawn, std::unique_ptr<ChessPiece> collider) -> bool;
 
-    static bool verifyPawn(ChessPiece *pawn, QGraphicsItem* collider);
+    static auto validatePawn(std::unique_ptr<ChessPiece> pawn, std::unique_ptr<QGraphicsItem> collider) -> bool;
 
-    // TODO: make these take a single QGraphicsItem*
-    static bool verifyRook(ChessPiece *rook, QList<QGraphicsItem*> colliders);
-    static bool verifyBishop(ChessPiece *bishop, QList<QGraphicsItem*> colliders);
-    static bool verifyKnight(ChessPiece *knight, QList<QGraphicsItem*> colliders);
-    static bool verifyKing(ChessPiece *king, QList<QGraphicsItem*> colliders);
-    static bool verifyQueen(ChessPiece *queen, QList<QGraphicsItem*> colliders);
+    // TODO: make these take a single QGraphicsItem
+    static auto validateRook(std::unique_ptr<ChessPiece> rook, std::unique_ptr<QGraphicsItem> collider) -> bool;
+    static auto validateBishop(std::unique_ptr<ChessPiece> bishop, std::unique_ptr<QGraphicsItem> collider) -> bool;
+    static auto validateKnight(std::unique_ptr<ChessPiece> knight, std::unique_ptr<QGraphicsItem> collider) -> bool;
+    static auto validateKing(std::unique_ptr<ChessPiece> king, std::unique_ptr<QGraphicsItem> collider) -> bool;
+    static auto validateQueen(std::unique_ptr<ChessPiece> queen, std::unique_ptr<QGraphicsItem> collider) -> bool;
 };
 
 #endif // VALIDATEPIECEMOVE_H

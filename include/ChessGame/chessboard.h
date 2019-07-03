@@ -22,7 +22,13 @@ private:
                   bool const& needsNewLine,
                   int &previousX,
                   int &previousY) -> std::unique_ptr<QGraphicsRectItem>;
-    static auto setPieceProperties(std::unique_ptr<ChessPiece>& piece, ChessPieceKind const& kind, QString const& name, QPointF const& pos) -> void;
+
+    static auto setPieceProperties(std::unique_ptr<ChessPiece>& piece,
+                                   ChessPieceKind const& kind,
+                                   QString const& name,
+                                   QPointF const& pos,
+                                   int row,
+                                   int column) -> void;
     auto checkIfNeedsNewLine(int const& index) -> bool;
 
     auto drawRects() -> std::array<std::array<std::unique_ptr<QGraphicsRectItem>, 8>, 8>;
@@ -38,4 +44,4 @@ private:
     std::array<std::unique_ptr<ChessPiece>, 16> m_blackPieces;
 };
 
-#endif // DRAWCHESSBOARD_H
+#endif // CHESSBOARD_H

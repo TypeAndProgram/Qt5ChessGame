@@ -7,8 +7,8 @@
 ChessBoard::ChessBoard(std::shared_ptr<QGraphicsScene> scene)
     : scene(scene), m_squares(drawRects()) {
     for (auto i = 0; i < 16; i++) {
-        m_whitePieces[i] = std::make_unique<ChessPiece>(nullptr, scene);
-        m_blackPieces[i] = std::make_unique<ChessPiece>(nullptr, scene);
+        m_whitePieces[i] = std::make_unique<ChessPiece>(nullptr, scene, &m_squares);
+        m_blackPieces[i] = std::make_unique<ChessPiece>(nullptr, scene, &m_squares);
     }
 }
 
@@ -16,11 +16,15 @@ ChessBoard::ChessBoard(std::shared_ptr<QGraphicsScene> scene)
 auto ChessBoard::setPieceProperties(std::unique_ptr<ChessPiece>& piece,
                                     ChessPieceKind const& kind,
                                     QString const& name,
-                                    QPointF const& pos) -> void {
+                                    QPointF const& pos,
+                                    int row,
+                                    int column) -> void {
     QString pathString = "../../assets/pieces/";
     pathString += (name.trimmed() + ".png");
     piece->setPixmap(QPixmap(pathString).scaled(80, 80));
     piece->setPos(pos);
+    piece->row = row;
+    piece->column = column;
     piece->kind = kind;
 }
 
@@ -30,7 +34,6 @@ auto ChessBoard::drawRect(QBrush const& brush,
                           bool const& needsNewLine,
                           int &previousX,
                           int &previousY) -> std::unique_ptr<QGraphicsRectItem> {
-
     QRect rect;
     rect.setWidth(80);
     rect.setHeight(80);
@@ -87,8 +90,19 @@ auto ChessBoard::drawRects() -> std::array<std::array<std::unique_ptr<QGraphicsR
 
 auto ChessBoard::drawPawns() -> void {
     for (auto index = 0; index < 8; index++) {
-        setPieceProperties(m_whitePieces[index], ChessPieceKind::Pawn, "Pawn", m_squares[1][index]->pos());
-        setPieceProperties(m_blackPieces[index], ChessPieceKind::BPawn, "B_Pawn", m_squares[6][index]->pos());
+        setPieceProperties(m_whitePieces[index],
+                           ChessPieceKind::Pawn,
+                           "Pawn",
+                           m_squares[1][index]->pos(),
+                           1,
+                           index);
+
+        setPieceProperties(m_blackPieces[index],
+                           ChessPieceKind::BPawn,
+                           "B_Pawn",
+                           m_squares[6][index]->pos(),
+                           1,
+                           index);
 
         scene->addItem(m_whitePieces[index].get());
         scene->addItem(m_blackPieces[index].get());
@@ -97,17 +111,25 @@ auto ChessBoard::drawPawns() -> void {
 
 
 auto ChessBoard::drawWhitePieces() -> void {
-    setPieceProperties(m_whitePieces[8], ChessPieceKind::Rook, "Rook", m_squares[0][0]->pos());
-    setPieceProperties(m_whitePieces[15], ChessPieceKind::Rook, "Rook", m_squares[0][7]->pos());
+    setPieceProperties(m_whitePieces[8], ChessPieceKind::Rook, "Rook",
+                       m_squares[0][0]->pos(), 0, 0);
+    setPieceProperties(m_whitePieces[15], ChessPieceKind::Rook, "Rook",
+                       m_squares[0][7]->pos(), 0, 7);
 
-    setPieceProperties(m_whitePieces[9], ChessPieceKind::Knight, "Knight", m_squares[0][1]->pos());
-    setPieceProperties(m_whitePieces[14], ChessPieceKind::Knight, "Knight", m_squares[0][6]->pos());
+    setPieceProperties(m_whitePieces[9], ChessPieceKind::Knight, "Knight",
+                       m_squares[0][1]->pos(), 0, 1);
+    setPieceProperties(m_whitePieces[14], ChessPieceKind::Knight, "Knight",
+                       m_squares[0][6]->pos(), 0, 6);
 
-    setPieceProperties(m_whitePieces[10], ChessPieceKind::Bishop, "Bishop", m_squares[0][2]->pos());
-    setPieceProperties(m_whitePieces[13], ChessPieceKind::Bishop, "Bishop", m_squares[0][5]->pos());
+    setPieceProperties(m_whitePieces[10], ChessPieceKind::Bishop, "Bishop",
+                       m_squares[0][2]->pos(), 0, 2);
+    setPieceProperties(m_whitePieces[13], ChessPieceKind::Bishop, "Bishop",
+                       m_squares[0][5]->pos(), 0, 5);
 
-    setPieceProperties(m_whitePieces[11], ChessPieceKind::Bishop, "King", m_squares[0][3]->pos());
-    setPieceProperties(m_whitePieces[12], ChessPieceKind::Bishop, "Queen", m_squares[0][4]->scenePos());
+    setPieceProperties(m_whitePieces[11], ChessPieceKind::Bishop, "King",
+                       m_squares[0][3]->pos(), 0, 3);
+    setPieceProperties(m_whitePieces[12], ChessPieceKind::Bishop, "Queen",
+                       m_squares[0][4]->scenePos(), 0, 4);
     for (auto i = 8; i < 16; i++) {
         scene->addItem(m_whitePieces[i].get());
     }
@@ -115,17 +137,26 @@ auto ChessBoard::drawWhitePieces() -> void {
 
 
 auto ChessBoard::drawBlackPieces() -> void {
-    setPieceProperties(m_blackPieces[8], ChessPieceKind::BRook, "B_Rook", m_squares[7][0]->pos());
-    setPieceProperties(m_blackPieces[15], ChessPieceKind::BRook, "B_Rook", m_squares[7][7]->pos());
+    setPieceProperties(m_blackPieces[8], ChessPieceKind::BRook, "B_Rook",
+                       m_squares[7][0]->pos(), 7, 0);
+    setPieceProperties(m_blackPieces[15], ChessPieceKind::BRook, "B_Rook",
+                       m_squares[7][7]->pos(), 7, 0);
 
-    setPieceProperties(m_blackPieces[9], ChessPieceKind::BKnight, "B_Knight", m_squares[7][1]->pos());
-    setPieceProperties(m_blackPieces[14], ChessPieceKind::BKnight, "B_Knight", m_squares[7][6]->pos());
+    setPieceProperties(m_blackPieces[9], ChessPieceKind::BKnight, "B_Knight",
+                       m_squares[7][1]->pos(), 7, 1);
+    setPieceProperties(m_blackPieces[14], ChessPieceKind::BKnight, "B_Knight",
+                       m_squares[7][6]->pos(), 7, 6);
 
-    setPieceProperties(m_blackPieces[10], ChessPieceKind::BBishop, "B_Bishop", m_squares[7][2]->pos());
-    setPieceProperties(m_blackPieces[13], ChessPieceKind::BBishop, "B_Bishop", m_squares[7][5]->pos());
+    setPieceProperties(m_blackPieces[10], ChessPieceKind::BBishop, "B_Bishop",
+                       m_squares[7][2]->pos(), 7, 2);
+    setPieceProperties(m_blackPieces[13], ChessPieceKind::BBishop, "B_Bishop",
+                       m_squares[7][5]->pos(), 7, 5);
 
-    setPieceProperties(m_blackPieces[11], ChessPieceKind::BKing, "B_King", m_squares[7][3]->pos());
-    setPieceProperties(m_blackPieces[12], ChessPieceKind::BQueen, "B_Queen", m_squares[7][4]->pos());
+    setPieceProperties(m_blackPieces[11], ChessPieceKind::BKing, "B_King",
+                       m_squares[7][3]->pos(), 7, 3);
+    setPieceProperties(m_blackPieces[12], ChessPieceKind::BQueen, "B_Queen",
+                       m_squares[7][4]->pos(), 7, 4);
+
     for (auto i = 8; i < 16; i++) {
         scene->addItem(m_blackPieces[i].get());
     }
