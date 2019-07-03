@@ -16,6 +16,7 @@ class ChessBoard : public QGraphicsView
 public:
     ChessBoard(std::shared_ptr<QGraphicsScene> scene);
     auto draw() -> void;
+
 private:
     auto drawRect(QBrush const& brush,
                   int const& index,
@@ -37,11 +38,12 @@ private:
     auto drawPawns() -> void;
 
 private:
-    std::shared_ptr<QGraphicsScene> const scene;
-    std::array<std::array<std::unique_ptr<QGraphicsRectItem>, 8>, 8> const m_squares;
+    std::shared_ptr<QGraphicsScene> const m_scene;
 
     std::array<std::unique_ptr<ChessPiece>, 16> m_whitePieces;
     std::array<std::unique_ptr<ChessPiece>, 16> m_blackPieces;
+public:
+    std::array<std::array<std::unique_ptr<QGraphicsRectItem>, 8>, 8> const squares;
 };
 
 #endif // CHESSBOARD_H

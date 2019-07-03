@@ -25,7 +25,7 @@ class ChessPiece : public QGraphicsPixmapItem
 public:
     ChessPiece(QGraphicsItem *parent = nullptr,
                std::shared_ptr<QGraphicsScene> const scene = nullptr,
-               const std::array<std::array<std::unique_ptr<QGraphicsRectItem>, 8>, 8>* boardSquares = nullptr);
+               ChessBoard const *board = nullptr);
 protected:
     auto mouseMoveEvent(QGraphicsSceneMouseEvent *event) -> void override;
     auto mousePressEvent(QGraphicsSceneMouseEvent *event) -> void override;
@@ -41,7 +41,7 @@ protected:
     bool dragOver;
 public:
     std::shared_ptr<QGraphicsScene> const scene;
-    const std::array<std::array<std::unique_ptr<QGraphicsRectItem>, 8>, 8>* boardSquares;
+    ChessBoard const *board;
     QPointF previousPos;
     ChessPieceKind kind;
     int row;

@@ -8,8 +8,8 @@
 
 ChessPiece::ChessPiece(QGraphicsItem *parent,
                        std::shared_ptr<QGraphicsScene> const scene,
-                       const std::array<std::array<std::unique_ptr<QGraphicsRectItem>, 8>, 8>* boardSquares)
-    : QGraphicsPixmapItem(parent), dragOver(false), scene(scene), boardSquares(boardSquares)
+                       ChessBoard const *board)
+    : QGraphicsPixmapItem(parent), dragOver(false), scene(scene), board(board)
 {
     setAcceptDrops(true);
 }
@@ -101,20 +101,20 @@ auto ChessPiece::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) -> void
                 // TODO: Check if the QImage of targeted piece is equal to a certain piece, then verify pawn, then
                 // move the piece
 
-                if (kind == ChessPieceKind::Pawn || kind == ChessPieceKind::Pawn) {
-                    if (ValidatePieceMove::validatePawnCapture(std::make_unique<ChessPiece>(this),
-                                                               std::make_unique<ChessPiece>(target))) {
-                        // Move pawn, remove target, set variables
-                        setPos(target->pos());
-                        hasLeftStart = true;
-                        scene->removeItem(target);
-                        previousPos = pos();
-                        return;
-                    } else {
-                        setPos(previousPos);
-                        return;
-                    }
-                }
+                // if (kind == ChessPieceKind::Pawn || kind == ChessPieceKind::Pawn) {
+                //     if (ValidatePieceMove::validatePawnCapture(std::make_unique<ChessPiece>(this),
+                //                                                std::make_unique<ChessPiece>(target))) {
+                //         // Move pawn, remove target, set variables
+                //         setPos(target->pos());
+                //         hasLeftStart = true;
+                //         scene->removeItem(target);
+                //         previousPos = pos();
+                //         return;
+                //     } else {
+                //         setPos(previousPos);
+                //         return;
+                //     }
+                // }
                 setPos(target->pos());
                 hasLeftStart = true;
 
