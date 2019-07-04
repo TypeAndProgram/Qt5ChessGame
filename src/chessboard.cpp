@@ -70,14 +70,14 @@ auto ChessBoard::draw_rects() -> std::array<std::array<std::unique_ptr<QGraphics
     for (auto row = 0; row < 8; row++) {
         for (auto column = 0; column < 8; column++) {
             squares[row][column] = draw_rect(previous_brush == QBrush(Qt::white) ? QBrush(Qt::darkGray) : QBrush(Qt::white),
-                                            // TODO: Make this look better
+                                             // TODO: Make this look better
 
-                                            // If this is the first square,
-                                            // this line below indicates it as such.
-                                            column == 0 ? row : row + 1,
-                                            needs_new_line,
-                                            previous_x,
-                                            previous_y);
+                                             // If this is the first square,
+                                             // this line below indicates it as such.
+                                             column == 0 ? row : row + 1,
+                                             needs_new_line,
+                                             previous_x,
+                                             previous_y);
             previous_brush = squares[row][column]->brush();
             needs_new_line = false;
         }
@@ -91,18 +91,18 @@ auto ChessBoard::draw_rects() -> std::array<std::array<std::unique_ptr<QGraphics
 auto ChessBoard::draw_pawns() -> void {
     for (auto index = 0; index < 8; index++) {
         set_piece_properties(m_white_pieces[index],
-                           ChessPieceKind::Pawn,
-                           "Pawn",
-                           squares_[1][index]->pos(),
-                           1,
-                           index);
+                             ChessPieceKind::Pawn,
+                             "Pawn",
+                             squares_[1][index]->pos(),
+                             1,
+                             index);
 
         set_piece_properties(m_black_pieces[index],
-                           ChessPieceKind::BPawn,
-                           "B_Pawn",
-                           squares_[6][index]->pos(),
-                           6,
-                           index);
+                             ChessPieceKind::BPawn,
+                             "B_Pawn",
+                             squares_[6][index]->pos(),
+                             6,
+                             index);
 
         m_scene->addItem(m_white_pieces[index].get());
         m_scene->addItem(m_black_pieces[index].get());
