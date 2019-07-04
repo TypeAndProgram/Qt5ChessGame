@@ -9,7 +9,7 @@
 ChessPiece::ChessPiece(QGraphicsItem *parent,
                        std::shared_ptr<QGraphicsScene> const scene,
                        ChessBoard const *board)
-    : QGraphicsPixmapItem(parent), dragOver(false), scene(scene), board(board)
+    : QGraphicsPixmapItem(parent), dragOver(false), scene_(scene), board_(board)
 {
     setAcceptDrops(true);
 }
@@ -19,7 +19,7 @@ auto ChessPiece::mousePressEvent(QGraphicsSceneMouseEvent *event) -> void
 {
     // Set the previous position of the chesspiece equal to its current position
     // To prepare for it to be moved
-    previousPos = pos();
+    previous_pos_ = pos();
     Q_UNUSED(event)
 }
 
@@ -32,65 +32,65 @@ auto ChessPiece::mouseMoveEvent(QGraphicsSceneMouseEvent *event) -> void
 }
 
 
-auto ChessPiece::handlePieceMove(ChessPieceKind const& pieceKind,
-                                 QGraphicsItem const* collider) -> void {
+auto ChessPiece::handle_piece_move(ChessPieceKind const& pieceKind,
+                                   QGraphicsItem const* collider) -> void {
     switch (pieceKind) {
         case Pawn: case BPawn:
-            handlePawnMove(collider);
+            handle_pawn_move(collider);
             break;
         case Rook: case BRook:
-            handleRookMove(collider);
+            handle_rook_move(collider);
             break;
         case Bishop: case BBishop:
-            handleBishopMove(collider);
+            handle_bishop_move(collider);
             break;
         case Knight: case BKnight:
-            handleKnightMove(collider);
+            handle_knight_move(collider);
             break;
         case King: case BKing:
-            handleKingMove(collider);
+            handle_king_move(collider);
             break;
         case Queen: case BQueen:
-            handleQueenMove(collider);
+            handle_queen_move(collider);
             break;
     }
 }
 
-auto ChessPiece::handlePawnMove(QGraphicsItem const* collider) -> void {
-    auto returnTuple = ValidatePieceMove::validatePawn(this, collider);
+auto ChessPiece::handle_pawn_move(QGraphicsItem const* collider) -> void {
+    auto returnTuple = ValidatePieceMove::validate_pawn(this, collider);
 
     if (!std::get<0>(returnTuple)) {
-        setPos(previousPos);
-        row = std::get<1>(returnTuple);
+        setPos(previous_pos_);
+        row_ = std::get<1>(returnTuple);
         return;
     }
 
     // If the pawn's move is validated,
     // move it and update fields.
     setPos(collider->pos());
-    previousPos = pos();
-    row = std::get<1>(returnTuple);
-    hasLeftStart = true;
+    previous_pos_ = pos();
+    row_ = std::get<1>(returnTuple);
+    has_left_start_ = true;
 }
 
 
-auto ChessPiece::handleRookMove(QGraphicsItem const* collider) -> void {
+auto ChessPiece::handle_rook_move(QGraphicsItem const* collider) -> void {
 }
 
 
-auto ChessPiece::handleBishopMove(QGraphicsItem const* collider) -> void {
+auto ChessPiece::handle_bishop_move(QGraphicsItem const* collider) -> void {
 }
 
 
-auto ChessPiece::handleKnightMove(QGraphicsItem const* collider) -> void {
+auto ChessPiece::handle_knight_move(QGraphicsItem const* collider) -> void {
 }
 
 
-auto ChessPiece::handleKingMove(QGraphicsItem const* collider) -> void {
+auto ChessPiece::handle_king_move(QGraphicsItem const* collider) -> void {
 }
 
 
-auto ChessPiece::handleQueenMove(QGraphicsItem const* collider) -> void {
+auto ChessPiece::handle_queen_move(QGraphicsItem const* collider) -> void {
 }
 
 // TODO: Handle capturing of pieces
@@ -126,18 +126,18 @@ auto ChessPiece::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) -> void
                 //     }
                 // }
                 setPos(target->pos());
-                hasLeftStart = true;
+                has_left_start_ = true;
 
-                scene->removeItem(target);
+                scene_->removeItem(target);
                 qDebug() << "Removed item from board";
-                previousPos = pos();
+                previous_pos_ = pos();
 
                 return;
             }
         }
 
         if (colliders.length() == 1) {
-            handlePieceMove(kind, colliders[0]);
+            handle_piece_move(kind_, colliders[0]);
         }
     }
 }

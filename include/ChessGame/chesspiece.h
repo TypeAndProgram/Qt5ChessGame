@@ -31,22 +31,22 @@ protected:
     auto mousePressEvent(QGraphicsSceneMouseEvent *event) -> void override;
     auto mouseReleaseEvent(QGraphicsSceneMouseEvent *event) -> void override;
 
-    auto handlePieceMove(ChessPieceKind const& pieceName, QGraphicsItem const* collider) -> void;
-    auto handlePawnMove(QGraphicsItem const* collider) -> void;
-    auto handleRookMove(QGraphicsItem const* collider) -> void;
-    auto handleBishopMove(QGraphicsItem const* collider) -> void;
-    auto handleKnightMove(QGraphicsItem const* collider) -> void;
-    auto handleKingMove(QGraphicsItem const* collider) -> void;
-    auto handleQueenMove(QGraphicsItem const* collider) -> void;
+    auto handle_piece_move(ChessPieceKind const& pieceName, QGraphicsItem const* collider) -> void;
+    auto handle_pawn_move(QGraphicsItem const* collider) -> void;
+    auto handle_rook_move(QGraphicsItem const* collider) -> void;
+    auto handle_bishop_move(QGraphicsItem const* collider) -> void;
+    auto handle_knight_move(QGraphicsItem const* collider) -> void;
+    auto handle_king_move(QGraphicsItem const* collider) -> void;
+    auto handle_queen_move(QGraphicsItem const* collider) -> void;
     bool dragOver;
 public:
-    std::shared_ptr<QGraphicsScene> const scene;
-    ChessBoard const *board;
-    QPointF previousPos;
-    ChessPieceKind kind;
-    int row;
-    int column;
-    bool hasLeftStart;
+    std::shared_ptr<QGraphicsScene> const scene_;
+    ChessBoard const *board_;
+    QPointF previous_pos_;
+    ChessPieceKind kind_;
+    int row_;
+    int column_;
+    bool has_left_start_;
 };
 
 #endif // CHESSPIECE_H

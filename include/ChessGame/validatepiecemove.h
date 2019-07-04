@@ -6,14 +6,14 @@
 
 namespace ValidatePieceMove
 {
-    // auto validatePawnCapture(ChessPiece const* pawn, std::unique_ptr<ChessPiece> collider) -> std::tuple<bool, int>;
+    // auto validate_pawn_capture(ChessPiece const* pawn, std::unique_ptr<ChessPiece> collider) -> std::tuple<bool, int>;
 
-    auto validatePawn(ChessPiece const* pawn, QGraphicsItem const* collider) -> std::tuple<bool, int>;
-    auto validateRook(ChessPiece const* rook, QGraphicsItem const* collider) -> std::tuple<bool, int>;
-    auto validateBishop(ChessPiece const* bishop, QGraphicsItem const* collider) -> std::tuple<bool, int>;
-    auto validateKnight(ChessPiece const* knight, QGraphicsItem const* collider) -> std::tuple<bool, int>;
-    auto validateKing(ChessPiece const* king, QGraphicsItem const* collider) -> std::tuple<bool, int>;
-    auto validateQueen(ChessPiece const* queen, QGraphicsItem const* collider) -> std::tuple<bool, int>;
+    auto validate_pawn(ChessPiece const* pawn, QGraphicsItem const* collider) -> std::tuple<bool, int>;
+    auto validate_rook(ChessPiece const* rook, QGraphicsItem const* collider) -> std::tuple<bool, int>;
+    auto validate_bishop(ChessPiece const* bishop, QGraphicsItem const* collider) -> std::tuple<bool, int>;
+    auto validate_knight(ChessPiece const* knight, QGraphicsItem const* collider) -> std::tuple<bool, int>;
+    auto validate_king(ChessPiece const* king, QGraphicsItem const* collider) -> std::tuple<bool, int>;
+    auto validate_queen(ChessPiece const* queen, QGraphicsItem const* collider) -> std::tuple<bool, int>;
 };
 
 #endif // VALIDATEPIECEMOVE_H
