@@ -32,77 +32,36 @@ auto ChessPiece::mouseMoveEvent(QGraphicsSceneMouseEvent *event) -> void
 }
 
 
-auto ChessPiece::handle_piece_move(ChessPieceKind const& pieceKind,
-                                   QGraphicsItem const* collider) -> void {
-    switch (pieceKind) {
-        case Pawn: case BPawn:
-            handle_pawn_move(collider);
-            break;
-        case Rook: case BRook:
-            handle_rook_move(collider);
-            break;
-        case Bishop: case BBishop:
-            handle_bishop_move(collider);
-            break;
-        case Knight: case BKnight:
-            handle_knight_move(collider);
-            break;
-        case King: case BKing:
-            handle_king_move(collider);
-            break;
-        case Queen: case BQueen:
-            handle_queen_move(collider);
-            break;
-    }
-}
-
-auto ChessPiece::handle_pawn_move(QGraphicsItem const* collider) -> void {
-    auto returnTuple = ValidatePieceMove::validate_pawn(this, collider);
-
-    if (!std::get<0>(returnTuple)) {
+auto ChessPiece::handle_move(std::tuple<bool, int> validate_tuple,
+                             QGraphicsItem const* collider) -> void {
+    if (!std::get<0>(validate_tuple)) {
         setPos(previous_pos_);
         return;
     }
 
     setPos(collider->pos());
     previous_pos_ = pos();
-    row_ = std::get<1>(returnTuple);
     has_left_start_ = true;
+    row_ = std::get<1>(validate_tuple);
 }
 
 
-auto ChessPiece::handle_rook_move(QGraphicsItem const* collider) -> void {
-    auto returnTuple = ValidatePieceMove::validate_rook(this, collider);
-
-    if (!std::get<0>(returnTuple)) {
+auto ChessPiece::handle_move(std::tuple<bool, int, int> validate_tuple,
+                             QGraphicsItem const* collider) -> void {
+    if (!std::get<0>(validate_tuple)) {
         setPos(previous_pos_);
         return;
     }
 
     setPos(collider->pos());
     previous_pos_ = pos();
-    row_ = std::get<1>(returnTuple);
-    column_ = std::get<2>(returnTuple);
     has_left_start_ = true;
+    row_ = std::get<1>(validate_tuple);
+    column_ = std::get<2>(validate_tuple);
 }
 
 
-auto ChessPiece::handle_bishop_move(QGraphicsItem const* collider) -> void {
-}
-
-
-auto ChessPiece::handle_knight_move(QGraphicsItem const* collider) -> void {
-}
-
-
-auto ChessPiece::handle_king_move(QGraphicsItem const* collider) -> void {
-}
-
-
-auto ChessPiece::handle_queen_move(QGraphicsItem const* collider) -> void {
-}
-
-// TODO: Handle capturing of pieces
+// TODO(smolck): Handle capturing of pieces
 
 auto ChessPiece::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) -> void
 {
@@ -117,7 +76,7 @@ auto ChessPiece::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) -> void
 
             if (target)
             {
-                // TODO: Check if the QImage of targeted piece is equal to a certain piece, then verify pawn, then
+                // TODO(smolck): Check if the QImage of targeted piece is equal to a certain piece, then verify pawn, then
                 // move the piece
 
                 // if (kind == ChessPieceKind::Pawn || kind == ChessPieceKind::BPawn) {
@@ -146,11 +105,35 @@ auto ChessPiece::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) -> void
         }
 
         if (colliders.length() == 1) {
-            handle_piece_move(kind_, colliders[0]);
+            switch (kind_) {
+                case Pawn: case BPawn:
+                    handle_move(ValidatePieceMove::validate_pawn(this, colliders[0]),
+                                colliders[0]);
+                    break;
+                case Rook: case BRook:
+                    handle_move(ValidatePieceMove::validate_rook(this, colliders[0]),
+                                colliders[0]);
+                    break;
+                // case Bishop: case BBishop:
+                //     handle_move(ValidatePieceMove::validate_bishop(this, colliders[0]),
+                //                 colliders[0]);
+                //     break;
+                // case Knight: case BKnight:
+                //     handle_move(ValidatePieceMove::validate_knight(this, colliders[0]),
+                //                 colliders[0]);
+                //     break;
+                // case King: case BKing:
+                //     handle_move(ValidatePieceMove::validate_king(this, colliders[0]),
+                //                 colliders[0]);
+                //     break;
+                // case Queen: case BQueen:
+                //     handle_move(ValidatePieceMove::validate_queen(this, colliders[0]),
+                //                 colliders[0]);
+                //     break;
+            }
             return;
         }
 
         setPos(previous_pos_);
     }
 }
-

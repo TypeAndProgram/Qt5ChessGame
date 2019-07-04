@@ -31,13 +31,9 @@ protected:
     auto mousePressEvent(QGraphicsSceneMouseEvent *event) -> void override;
     auto mouseReleaseEvent(QGraphicsSceneMouseEvent *event) -> void override;
 
-    auto handle_piece_move(ChessPieceKind const& pieceName, QGraphicsItem const* collider) -> void;
-    auto handle_pawn_move(QGraphicsItem const* collider) -> void;
-    auto handle_rook_move(QGraphicsItem const* collider) -> void;
-    auto handle_bishop_move(QGraphicsItem const* collider) -> void;
-    auto handle_knight_move(QGraphicsItem const* collider) -> void;
-    auto handle_king_move(QGraphicsItem const* collider) -> void;
-    auto handle_queen_move(QGraphicsItem const* collider) -> void;
+    auto handle_move(std::tuple<bool, int> validate_tuple, QGraphicsItem const* collider) -> void;
+    auto handle_move(std::tuple<bool, int, int> validate_tuple, QGraphicsItem const* collider) -> void;
+
     bool dragOver;
 public:
     std::shared_ptr<QGraphicsScene> const scene_;
