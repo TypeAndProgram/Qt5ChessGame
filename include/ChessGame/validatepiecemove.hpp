@@ -1,8 +1,8 @@
 #ifndef VALIDATEPIECEMOVE_H
 #define VALIDATEPIECEMOVE_H
 
-#include "chesspiece.h"
-#include "pch.h"
+#include "chesspiece.hpp"
+#include "pch.hpp"
 
 namespace ValidatePieceMove
 {

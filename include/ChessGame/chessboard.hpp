@@ -2,7 +2,7 @@
 #define CHESSBOARD_H
 
 #include "../../src/mainwindow.h"
-#include "chesspiece.h"
+#include "chesspiece.hpp"
 
 #include <QGraphicsView>
 #include <QGraphicsRectItem>

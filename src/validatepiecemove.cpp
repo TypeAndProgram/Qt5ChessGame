@@ -1,6 +1,5 @@
-#include "../include/ChessGame/validatepiecemove.h"
-#include "../include/ChessGame/chessboard.h"
-#include <cmath>
+#include "../include/ChessGame/validatepiecemove.hpp"
+#include "../include/ChessGame/chessboard.hpp"
 
 namespace ValidatePieceMove {
 

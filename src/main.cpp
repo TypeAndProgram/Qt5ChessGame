@@ -1,8 +1,8 @@
 #include "mainwindow.h"
-#include "../include/ChessGame/chesspiece.h"
+#include "../include/ChessGame/chesspiece.hpp"
 
-#include "../include/ChessGame/chessboard.h"
-#include "../include/ChessGame/pch.h"
+#include "../include/ChessGame/chessboard.hpp"
+#include "../include/ChessGame/pch.hpp"
 
 auto main(int argc, char *argv[]) -> int
 {

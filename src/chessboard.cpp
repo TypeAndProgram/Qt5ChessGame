@@ -1,5 +1,5 @@
-#include "../include/ChessGame/chessboard.h"
-#include "../include/ChessGame/chesspiece.h"
+#include "../include/ChessGame/chessboard.hpp"
+#include "../include/ChessGame/chesspiece.hpp"
 
 // TODO: Make the chessboard orientation user configurable,
 // i.e. white/black pieces on top/bottom.

@@ -1,6 +1,6 @@
-#include "../include/ChessGame/chesspiece.h"
-#include "../include/ChessGame/validatepiecemove.h"
-#include "../include/ChessGame/chessboard.h"
+#include "../include/ChessGame/chesspiece.hpp"
+#include "../include/ChessGame/validatepiecemove.hpp"
+#include "../include/ChessGame/chessboard.hpp"
 
 #include <QList>
 #include <memory>

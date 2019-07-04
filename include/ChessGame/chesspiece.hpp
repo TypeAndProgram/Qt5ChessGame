@@ -1,7 +1,7 @@
 #ifndef CHESSPIECE_H
 #define CHESSPIECE_H
 
-#include "pch.h"
+#include "pch.hpp"
 
 class ChessBoard;
 

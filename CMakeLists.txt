@@ -32,5 +32,5 @@ set(UI src/mainwindow.ui)
 
 add_executable(ChessGame ${SOURCES} ${HEADERS} ${UI})
 
-add_precompiled_header(ChessGame include/ChessGame/pch.h FORCEINCLUDE)
+add_precompiled_header(ChessGame include/ChessGame/pch.hpp FORCEINCLUDE)
 target_link_libraries(ChessGame Qt5::Widgets)
