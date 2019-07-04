@@ -101,7 +101,7 @@ auto ChessBoard::drawPawns() -> void {
                            ChessPieceKind::BPawn,
                            "B_Pawn",
                            squares[6][index]->pos(),
-                           1,
+                           6,
                            index);
 
         m_scene->addItem(m_whitePieces[index].get());
@@ -140,7 +140,7 @@ auto ChessBoard::drawBlackPieces() -> void {
     setPieceProperties(m_blackPieces[8], ChessPieceKind::BRook, "B_Rook",
                        squares[7][0]->pos(), 7, 0);
     setPieceProperties(m_blackPieces[15], ChessPieceKind::BRook, "B_Rook",
-                       squares[7][7]->pos(), 7, 0);
+                       squares[7][7]->pos(), 7, 7);
 
     setPieceProperties(m_blackPieces[9], ChessPieceKind::BKnight, "B_Knight",
                        squares[7][1]->pos(), 7, 1);

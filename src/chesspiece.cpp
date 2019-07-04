@@ -33,54 +33,64 @@ auto ChessPiece::mouseMoveEvent(QGraphicsSceneMouseEvent *event) -> void
 
 
 auto ChessPiece::handlePieceMove(ChessPieceKind const& pieceKind,
-                                 std::unique_ptr<QGraphicsItem> collider) -> void {
+                                 QGraphicsItem const* collider) -> void {
     switch (pieceKind) {
         case Pawn: case BPawn:
-            handlePawnMove(std::move(collider));
+            handlePawnMove(collider);
             break;
         case Rook: case BRook:
-            handleRookMove(std::move(collider));
+            handleRookMove(collider);
             break;
         case Bishop: case BBishop:
-            handleBishopMove(std::move(collider));
+            handleBishopMove(collider);
             break;
         case Knight: case BKnight:
-            handleKnightMove(std::move(collider));
+            handleKnightMove(collider);
             break;
         case King: case BKing:
-            handleKingMove(std::move(collider));
+            handleKingMove(collider);
             break;
         case Queen: case BQueen:
-            handleQueenMove(std::move(collider));
+            handleQueenMove(collider);
             break;
     }
 }
 
-auto ChessPiece::handlePawnMove(std::unique_ptr<QGraphicsItem> collider) -> void {
-   // if (!ValidatePieceMove::validatePawn(std::make_unique<ChessPiece>(this),
-   //                                      std::move(collider))) {
-   //     // set pawn to previous pos and return
-   // }
+auto ChessPiece::handlePawnMove(QGraphicsItem const* collider) -> void {
+    auto returnTuple = ValidatePieceMove::validatePawn(this, collider);
+
+    if (!std::get<0>(returnTuple)) {
+        setPos(previousPos);
+        row = std::get<1>(returnTuple);
+        return;
+    }
+
+    // If the pawn's move is validated,
+    // move it and update fields.
+    setPos(collider->pos());
+    previousPos = pos();
+    row = std::get<1>(returnTuple);
+    hasLeftStart = true;
 }
 
 
-auto ChessPiece::handleRookMove(std::unique_ptr<QGraphicsItem> collider) -> void {
+auto ChessPiece::handleRookMove(QGraphicsItem const* collider) -> void {
 }
 
 
-auto ChessPiece::handleBishopMove(std::unique_ptr<QGraphicsItem> collider) -> void {
+auto ChessPiece::handleBishopMove(QGraphicsItem const* collider) -> void {
 }
 
 
-auto ChessPiece::handleKnightMove(std::unique_ptr<QGraphicsItem> collider) -> void {
+auto ChessPiece::handleKnightMove(QGraphicsItem const* collider) -> void {
 }
 
 
-auto ChessPiece::handleKingMove(std::unique_ptr<QGraphicsItem> collider) -> void {
+auto ChessPiece::handleKingMove(QGraphicsItem const* collider) -> void {
 }
 
 
-auto ChessPiece::handleQueenMove(std::unique_ptr<QGraphicsItem> collider) -> void {
+auto ChessPiece::handleQueenMove(QGraphicsItem const* collider) -> void {
 }
 
 // TODO: Handle capturing of pieces
@@ -101,7 +111,7 @@ auto ChessPiece::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) -> void
                 // TODO: Check if the QImage of targeted piece is equal to a certain piece, then verify pawn, then
                 // move the piece
 
-                // if (kind == ChessPieceKind::Pawn || kind == ChessPieceKind::Pawn) {
+                // if (kind == ChessPieceKind::Pawn || kind == ChessPieceKind::BPawn) {
                 //     if (ValidatePieceMove::validatePawnCapture(std::make_unique<ChessPiece>(this),
                 //                                                std::make_unique<ChessPiece>(target))) {
                 //         // Move pawn, remove target, set variables
@@ -126,124 +136,8 @@ auto ChessPiece::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) -> void
             }
         }
 
- 	    // Handle piece movement (one collider means it is a square in this case)
         if (colliders.length() == 1) {
-            handlePieceMove(kind, std::unique_ptr<QGraphicsItem>(colliders[0]));
-
-            // Handle pawns
-	    //     if (name == "Pawn" || name == "B_Pawn") {
-
-        //         // If pawn's move is valid, move it to new pos and return
-        //         if (ValidatePieceMove::verifyPawn(this, colliders[0])) {
-        //             setPos(colliders[0]->pos());
-        //             previousPos = pos();
-        //             if (!hasLeftStart) {
-        //                 hasLeftStart = true;
-        //             }
-        //             return;
-
-        //         // Else, move it back where it was
-        //         } else {
-        //             setPos(previousPos);
-        //             return;
-        //         }
-
-        //     // Handle rooks
-        //     } else if (name == "Rook" || name == "B_Rook") {
-
-        //         // If rook's move is valid, move it to new pos and return
-        //         if (ValidatePieceMove::verifyRook(this, colliders)) {
-        //             setPos(colliders[0]->pos());
-        //             previousPos = pos();
-        //             if (!hasLeftStart) {
-        //                 hasLeftStart = true;
-        //             }
-        //             return;
-
-        //         // Else, move it back where it was
-        //         } else {
-        //             setPos(previousPos);
-        //             return;
-        //         }
-
-        //     // Handle bishops
-        //     } else if (name == "Bishop" || name == "B_Bishop") {
-
-        //         // If bishop's move is valid, move it to new pos and return
-        //         if (ValidatePieceMove::verifyBishop(this, colliders)) {
-        //             setPos(colliders[0]->pos());
-        //             previousPos = pos();
-        //             if (!hasLeftStart) {
-        //                 hasLeftStart = true;
-        //             }
-        //             return;
-
-        //         // Else, move it back where it was
-        //         } else {
-        //             setPos(previousPos);
-        //             return;
-        //         }
-
-        //     // Handle knights
-        //     } else if (name == "Knight" || name == "B_Knight") {
-
-        //         // If knight's move is valid, move it to new pos and return
-        //         if (ValidatePieceMove::verifyKnight(this, colliders)) {
-        //             setPos(colliders[0]->pos());
-        //             previousPos = pos();
-        //             if (!hasLeftStart) {
-        //                 hasLeftStart = true;
-        //             }
-        //             return;
-
-        //         // Else, move it back where it was
-        //         } else {
-        //             setPos(previousPos);
-        //             return;
-        //         }
-
-        //     // Handle kings
-        //     } else if (name == "King" || name == "B_King") {
-
-        //         // If knight's move is valid, move it to new pos and return
-        //         if (ValidatePieceMove::verifyKing(this, colliders)) {
-        //             setPos(colliders[0]->pos());
-        //             previousPos = pos();
-        //             if(!hasLeftStart) {
-        //                 hasLeftStart = true;
-        //             }
-        //             return;
-
-        //         // Else, move it back where it was
-        //         } else {
-        //             setPos(previousPos);
-        //             return;
-        //         }
-
-        //     // Handle queens
-        //     } else if (name == "Queen" || name == "B_Queen") {
-
-        //         // If queen's move is valid, move it to new pos and return
-        //         if (ValidatePieceMove::verifyQueen(this, colliders)) {
-        //             setPos(colliders[0]->pos());
-        //             previousPos = pos();
-        //             if (!hasLeftStart) {
-        //                 hasLeftStart = true;
-        //             }
-        //             return;
-
-        //         // Else, move it back where it was
-        //         } else {
-        //             setPos(previousPos);
-        //             return;
-        //         }
-        //     }
-
-        // // Move piece back to its previous position if it is colliding
-        // // with more than one piece/square
-        // } else {
-        //     setPos(previousPos);
-        // }
+            handlePieceMove(kind, colliders[0]);
         }
     }
 }
