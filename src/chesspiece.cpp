@@ -61,12 +61,9 @@ auto ChessPiece::handle_pawn_move(QGraphicsItem const* collider) -> void {
 
     if (!std::get<0>(returnTuple)) {
         setPos(previous_pos_);
-        row_ = std::get<1>(returnTuple);
         return;
     }
 
-    // If the pawn's move is validated,
-    // move it and update fields.
     setPos(collider->pos());
     previous_pos_ = pos();
     row_ = std::get<1>(returnTuple);
@@ -75,6 +72,18 @@ auto ChessPiece::handle_pawn_move(QGraphicsItem const* collider) -> void {
 
 
 auto ChessPiece::handle_rook_move(QGraphicsItem const* collider) -> void {
+    auto returnTuple = ValidatePieceMove::validate_rook(this, collider);
+
+    if (!std::get<0>(returnTuple)) {
+        setPos(previous_pos_);
+        return;
+    }
+
+    setPos(collider->pos());
+    previous_pos_ = pos();
+    row_ = std::get<1>(returnTuple);
+    column_ = std::get<2>(returnTuple);
+    has_left_start_ = true;
 }
 
 
@@ -138,7 +147,10 @@ auto ChessPiece::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) -> void
 
         if (colliders.length() == 1) {
             handle_piece_move(kind_, colliders[0]);
+            return;
         }
+
+        setPos(previous_pos_);
     }
 }
 
